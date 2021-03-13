@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // constants
 import {images, theme} from '../../constants';
@@ -167,8 +168,13 @@ const Onboarding = (props) => {
           borderTopRightRadius: 0,
           backgroundColor: COLORS.blue,
         }}
-        onPress={() => {
-          props.navigation.navigate("Auth");
+        onPress={async () => {
+          try {
+            await AsyncStorage.setItem('@viewedOnboarding', 'true');
+            props.navigation.navigate('Auth');
+          } catch (error) {
+            console.log(error);
+          }
         }}>
         <Text style={{...FONTS.h1, color: COLORS.white}}>
           {completed ? "Let's Go" : 'Skip'}

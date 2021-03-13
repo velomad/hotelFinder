@@ -2,6 +2,7 @@ import {SIGNIN_LOAD, SIGNIN_FETCH, SIGNIN_ERROR} from '../types';
 
 const initialState = {
   token: '',
+  isAuth:false,
   signinLoading: false,
   error: {},
 };
@@ -11,21 +12,21 @@ const AuthReducer = (state = initialState, action) => {
   switch (type) {
     case SIGNIN_LOAD:
       return {
-        signinLoading: true,
         ...state,
+        signinLoading: true,
       };
     case SIGNIN_FETCH:
-      console.log('from reducer========>', payload);
       return {
+        ...state,
         signinLoading: false,
         token: payload,
-        ...state,
+        isAuth : true
       };
     case SIGNIN_ERROR:
       return {
+        ...state,
         signinLoading: false,
         error: payload,
-        ...state,
       };
     default:
       return state;

@@ -1,7 +1,8 @@
 import {SIGNIN_FETCH, SIGNIN_LOAD, SIGNIN_ERROR} from '../types';
 import Axios from 'axios';
+import toastMessage from '../../utils/toastMessage';
 
-export const signIn = (data) => async (dispatch) => {
+export const signIn = (data, navigation) => async (dispatch) => {
   dispatch({type: SIGNIN_LOAD});
   try {
     const result = await Axios.post(
@@ -9,8 +10,11 @@ export const signIn = (data) => async (dispatch) => {
       data,
     );
     dispatch({type: SIGNIN_FETCH, payload: result.data.accessToken});
-    console.log('from action======>', result.data.accessToken);
+
+    // Navigate to screen after successful signin
+    navigation.navigate('Home');
   } catch (error) {
     dispatch({type: SIGNIN_ERROR, payload: error.response.data.error});
+    toastMessage('Invalid login or password');
   }
 };

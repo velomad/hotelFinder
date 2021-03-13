@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ToastAndroid} from 'react-native';
 import {InputField, Button} from '../../components';
 import {COLORS, FONTS} from '../../constants';
 import {connect} from 'react-redux';
 import {signIn} from '../../store/action';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = (props) => {
   const [inputValue, setInputValue] = useState({});
@@ -18,23 +19,7 @@ const Login = (props) => {
   };
 
   const handleLogin = async () => {
-    await props.signIn(inputValue);
-    // if (props.signinError.status === 401) {
-    //   showToastWithGravityAndOffset();
-    //   return;
-    // }
-    // props.navigation.navigate('Home');
-    console.log('from login page======>', props.token);
-  };
-
-  const showToastWithGravityAndOffset = () => {
-    ToastAndroid.showWithGravityAndOffset(
-      'A wild toast appeared!',
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
+    await props.signIn(inputValue, props.navigation);
   };
 
   return (
@@ -89,7 +74,11 @@ const Login = (props) => {
           onChange={handleChange}
         />
 
-        <Button title="Login" onPress={handleLogin} />
+        <Button
+          title="Login"
+          onPress={handleLogin}
+          disable={props.signinIsLoading === true ? true : false}
+        />
       </View>
       <View style={{alignItems: 'center'}}>
         <Text>
@@ -106,11 +95,14 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = ({authState}) => ({
-  signinIsLoading: authState.signinLoading,
-  signinError: authState.error,
-  token: authState.token,
-});
+const mapStateToProps = (state) => {
+  return {
+    signinIsLoading: state.authState.signinLoading,
+    signinError: state.authState.error,
+    token: state.authState.token,
+    isAuth: state.authState.isAuth,
+  };
+};
 
 export default connect(mapStateToProps, {signIn})(Login);
 
