@@ -1,42 +1,44 @@
-import React from 'react';
-import {Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 // screens
-import {Onboarding} from '../screens';
+import {Home} from '../screens';
 
 // Auth navigation
 import AuthNavigator from './AuthNavigator';
-import Home from '../screens/Home/Home';
 import {connect} from 'react-redux';
 
 // screen for stack & tabs
 const Stack = createStackNavigator();
 
 const AppNavigator = (props) => {
+  const [asyncToken, setAsyncToken] = useState(null);
+
+  const getAccessTokenFromAsyncStorage = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@accessToken');
+      setAsyncToken(value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(props.viewedOnboarding);
+    getAccessTokenFromAsyncStorage();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {/* Onboarding screen */}
-        <Stack.Screen
-          name="Onboarding"
-          component={Onboarding}
-          options={{headerShown: false}}
-        />
-
-        {/* siginin == true ? stack for auth  :  tabs for authenticed user */}
-
-        {props.isAuth === false ? (
-          <Stack.Screen
-            name="Auth"
-            component={AuthNavigator}
-            options={{headerShown: false}}
-          />
-        ) : (
+      {props.isAuth && asyncToken !== null ? (
+        <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} />
-        )}
-      </Stack.Navigator>
+        </Stack.Navigator>
+      ) : (
+        <AuthNavigator />
+      )}
     </NavigationContainer>
   );
 };

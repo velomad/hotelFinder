@@ -171,7 +171,7 @@ const Onboarding = (props) => {
         onPress={async () => {
           try {
             await AsyncStorage.setItem('@viewedOnboarding', 'true');
-            props.navigation.navigate('Auth');
+            props.navigation.navigate('Login');
           } catch (error) {
             console.log(error);
           }

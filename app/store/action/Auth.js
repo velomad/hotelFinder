@@ -1,5 +1,6 @@
 import {SIGNIN_FETCH, SIGNIN_LOAD, SIGNIN_ERROR} from '../types';
 import Axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import toastMessage from '../../utils/toastMessage';
 
 export const signIn = (data, navigation) => async (dispatch) => {
@@ -10,7 +11,7 @@ export const signIn = (data, navigation) => async (dispatch) => {
       data,
     );
     dispatch({type: SIGNIN_FETCH, payload: result.data.accessToken});
-
+    await AsyncStorage.setItem('@accessToken', result.data.accessToken);
     // Navigate to screen after successful signin
     navigation.navigate('Home');
   } catch (error) {

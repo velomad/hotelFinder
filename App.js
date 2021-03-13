@@ -9,7 +9,7 @@ const App = () => {
   const checkOnBoarding = async () => {
     try {
       const value = await AsyncStorage.getItem('@viewedOnboarding');
-      if (value === null) {
+      if (value !== null) {
         setViewedOnboarding(true);
       }
     } catch (error) {

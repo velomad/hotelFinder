@@ -42,7 +42,7 @@ const Login = (props) => {
             Sign in to continue!
           </Text>
         </View>
-
+{/* 
         <Text
           onPress={() => props.navigation.navigate('Home')}
           style={{
@@ -52,7 +52,7 @@ const Login = (props) => {
             textDecorationLine: 'underline',
           }}>
           Skip
-        </Text>
+        </Text> */}
       </View>
       <View
         style={{
