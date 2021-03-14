@@ -1,30 +1,27 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux';
+
+// Actions
+import {signOut} from '../../store/action';
 
 const Home = (props) => {
-  const handleLogout = async () => {
-    try {
-      const getValue = await AsyncStorage.getItem('@accessToken');
-      console.log(getValue)
-      const value = await AsyncStorage.removeItem('@accessToken');
-      console.log(value)
-    } catch (error) {
-      console.log(error);
-    }
-    // finally {
-    //   props.navigation.navigate("Auth")
-    // }
+  const handleLogout = () => {
+    props.signOut();
   };
 
   return (
     <View style={styles.container}>
       <Text>Welcome, Sagar</Text>
-      <Text onPress={handleLogout}>LOGOUT</Text>
+      <Text
+        onPress={handleLogout}
+        style={{backgroundColor: '#444', color: '#fff', padding: 5}}>
+        LOGOUT
+      </Text>
     </View>
   );
 };
-export default Home;
+export default connect(null, {signOut})(Home);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ToastAndroid} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Keyboard} from 'react-native';
 import {InputField, Button} from '../../components';
 import {COLORS, FONTS} from '../../constants';
 import {connect} from 'react-redux';
 import {signIn} from '../../store/action';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = (props) => {
   const [inputValue, setInputValue] = useState({});
@@ -19,6 +18,7 @@ const Login = (props) => {
   };
 
   const handleLogin = async () => {
+    Keyboard.dismiss();
     await props.signIn(inputValue, props.navigation);
   };
 
@@ -42,7 +42,7 @@ const Login = (props) => {
             Sign in to continue!
           </Text>
         </View>
-{/* 
+
         <Text
           onPress={() => props.navigation.navigate('Home')}
           style={{
@@ -52,7 +52,7 @@ const Login = (props) => {
             textDecorationLine: 'underline',
           }}>
           Skip
-        </Text> */}
+        </Text>
       </View>
       <View
         style={{

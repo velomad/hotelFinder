@@ -7,26 +7,29 @@ import {Login, Signup, Onboarding} from '../screens';
 // screen for stack & tabs
 const Stack = createStackNavigator();
 
-const AuthNavigator = () => {
+const AuthNavigator = (props) => {
   return (
     <Stack.Navigator>
-      {/* Onboarding screen */}
-      <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
-        options={{headerShown: false}}
-      />
-
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Signup"
-        component={Signup}
-        options={{headerShown: false}}
-      />
+      {!props.isOnboarded ? (
+        <Stack.Screen
+          name="Onboarding"
+          component={Onboarding}
+          options={{headerShown: false}}
+        />
+      ) : (
+        <React.Fragment>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{headerShown: false}}
+          />
+        </React.Fragment>
+      )}
     </Stack.Navigator>
   );
 };
