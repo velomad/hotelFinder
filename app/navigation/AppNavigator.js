@@ -34,17 +34,21 @@ const AppNavigator = (props) => {
 
   useEffect(() => {
     getAccessTokenFromAsyncStorage();
+    console.log(props.isAuth);
   }, []);
 
   return (
     <NavigationContainer>
       {props.isAuth ? (
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       ) : (
-        // props.viewdonoarding is comming form App.js
-        <AuthNavigator isOnboarded={props.viewedOnboarding} />
+        <AuthNavigator />
       )}
     </NavigationContainer>
   );
