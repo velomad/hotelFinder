@@ -36,6 +36,14 @@ const AuthNavigator = () => {
         /> */}
       {/* // ) : ( */}
       {/* // <React.Fragment> */}
+
+      {/* {!viewedOnboarding && (
+        <Stack.Screen
+          name="Onboarding"
+          component={Onboarding}
+          options={{headerShown: false}}
+        />
+      )} */}
       <Stack.Screen
         name="Login"
         component={Login}

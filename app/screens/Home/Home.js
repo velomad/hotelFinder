@@ -27,7 +27,7 @@ const Home = ({navigation}) => {
       name: 'test',
       latitude: 19.4243769,
       longitude: 72.811126,
-      image: require('../../assets/h4.jpg'),
+      image: require('../../assets/h1.jpg'),
       rooms: [
         {type: 'delux', cost: 2600},
         {type: 'AC', cost: 2200},
@@ -39,7 +39,7 @@ const Home = ({navigation}) => {
       name: 'best',
       latitude: 19.4252145,
       longitude: 72.812675,
-      image: require('../../assets/h4.jpg'),
+      image: require('../../assets/h2.jpg'),
       rooms: [
         {type: 'delux', cost: 2600},
         {type: 'AC', cost: 2200},
@@ -51,7 +51,7 @@ const Home = ({navigation}) => {
       name: 'rest',
       latitude: 19.4246982,
       longitude: 72.813954,
-      image: require('../../assets/h4.jpg'),
+      image: require('../../assets/h3.jpg'),
       rooms: [
         {type: 'delux', cost: 2600},
         {type: 'AC', cost: 2200},
