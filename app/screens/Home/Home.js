@@ -148,7 +148,7 @@ const Home = ({navigation}) => {
         <Button
           title="Book Room"
           color="gray"
-          onPress={() => navigation.navigate('Booking')}
+          onPress={() => navigation.navigate('RoomBook')}
         />
       </View>
     </View>
