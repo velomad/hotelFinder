@@ -19,6 +19,7 @@ import Carousel from 'react-native-snap-carousel';
 import {COLORS, FONTS, SIZES} from '../../constants';
 import Geolocation from '@react-native-community/geolocation';
 import {request, PERMISSIONS} from 'react-native-permissions';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 // Actions
 // import {} from '../../store/action';
@@ -79,15 +80,31 @@ const Home = ({navigation}) => {
   const requestLocationPermission = async () => {
     if (Platform.OS === 'android') {
       var response = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-
       if (response === 'granted') {
-        locateCurrentPosition();
+        getPermissions();
+      } else {
+        getPermissions();
       }
     }
   };
 
+  // native location enabler
+  const getPermissions = () => {
+    RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+      interval: 10000,
+      fastInterval: 5000,
+    }).then((data) => {
+      if (data === 'already-enabled') {
+        locateCurrentPosition();
+      } else {
+        locateCurrentPosition();
+      }
+    });
+  };
+
   const locateCurrentPosition = () => {
     Geolocation.getCurrentPosition((position) => {
+      console.log(position);
       const {latitude, longitude} = position.coords;
       setCoords({latitude, longitude});
     });
@@ -160,40 +177,42 @@ const Home = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#ccc" />
-      <MapView
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        ref={map}
-        zoomEnabled={true}
-        showsUserLocation={true}
-        initialRegion={{
-          latitude:
-            coords.latitude === undefined ? 19.4246982 : coords.latitude,
-          longitude:
-            coords.longitude === undefined ? 72.812675 : coords.longitude,
-          // latitude: 19.4246982,
-          // longitude: 72.812675,
-          latitudeDelta: 0.09,
-          longitudeDelta: 0.14,
-        }}>
-        {hotels.map((hotel, index) => (
-          <Marker
-            onPress={() => onMarkerPress(hotel, index)}
-            key={index}
-            ref={(ref) => (markers[index] = ref)}
-            coordinate={{
-              latitude: hotel.latitude,
-              longitude: hotel.longitude,
-            }}
-            // title={hotel.name}
-          >
-            <Callout>
-              <Text>{hotel.name}</Text>
-            </Callout>
-          </Marker>
-        ))}
-      </MapView>
+      <StatusBar backgroundColor="#ccc" barStyle="dark-content" />
+      {coords.latitude === undefined && coords.longitude === undefined ? (
+        <Text>Loading..</Text>
+      ) : (
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          ref={map}
+          zoomEnabled={true}
+          showsUserLocation={true}
+          initialRegion={{
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            // latitude: 19.4246982,
+            // longitude: 72.812675,
+            latitudeDelta: 0.09,
+            longitudeDelta: 0.14,
+          }}>
+          {hotels.map((hotel, index) => (
+            <Marker
+              onPress={() => onMarkerPress(hotel, index)}
+              key={index}
+              ref={(ref) => (markers[index] = ref)}
+              coordinate={{
+                latitude: hotel.latitude,
+                longitude: hotel.longitude,
+              }}
+              // title={hotel.name}
+            >
+              <Callout>
+                <Text>{hotel.name}</Text>
+              </Callout>
+            </Marker>
+          ))}
+        </MapView>
+      )}
       <Carousel
         ref={carousel}
         data={hotels}

@@ -15,7 +15,6 @@ const App = () => {
   return (
     <Provider store={Store}>
       <SafeAreaProvider>
-        {/* <StatusBar barStyle="dark-content" translucent /> */}
         <AppNavigator />
       </SafeAreaProvider>
     </Provider>
