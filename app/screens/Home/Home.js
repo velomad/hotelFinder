@@ -1,5 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Text, View, Dimensions, Image, Button} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Image,
+  Button,
+  StatusBar,
+} from 'react-native';
 import {connect} from 'react-redux';
 import MapView, {
   Polygon,
@@ -31,7 +39,6 @@ const Home = ({navigation}) => {
       rooms: [
         {type: 'delux', cost: 2600},
         {type: 'AC', cost: 2200},
-        {type: 'Normal', cost: 1600},
       ],
     },
     {
@@ -43,7 +50,6 @@ const Home = ({navigation}) => {
       rooms: [
         {type: 'delux', cost: 2600},
         {type: 'AC', cost: 2200},
-        {type: 'Normal', cost: 1600},
       ],
     },
     {
@@ -55,7 +61,6 @@ const Home = ({navigation}) => {
       rooms: [
         {type: 'delux', cost: 2600},
         {type: 'AC', cost: 2200},
-        {type: 'Normal', cost: 1600},
       ],
     },
     {
@@ -67,7 +72,6 @@ const Home = ({navigation}) => {
       rooms: [
         {type: 'delux', cost: 2600},
         {type: 'AC', cost: 2200},
-        {type: 'Normal', cost: 1600},
       ],
     },
   ]);
@@ -156,12 +160,13 @@ const Home = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="#ccc" />
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
         ref={map}
         zoomEnabled={true}
-        region={region}
+        showsUserLocation={true}
         initialRegion={{
           latitude:
             coords.latitude === undefined ? 19.4246982 : coords.latitude,
@@ -169,8 +174,8 @@ const Home = ({navigation}) => {
             coords.longitude === undefined ? 72.812675 : coords.longitude,
           // latitude: 19.4246982,
           // longitude: 72.812675,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.1254,
+          latitudeDelta: 0.09,
+          longitudeDelta: 0.14,
         }}>
         {hotels.map((hotel, index) => (
           <Marker
@@ -220,7 +225,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     borderRadius: 15,
     backgroundColor: '#fff',
-    height: 300,
+    height: 250,
     width: 300,
   },
   cardImage: {

@@ -9,7 +9,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {connect} from 'react-redux';
 
 // Icons
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
+import BookingIcon from 'react-native-vector-icons/Feather';
+import AccountIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // screens
 import {Account, Bookings, Home, RoomBook} from '../screens';
@@ -56,7 +58,7 @@ const AppNavigator = (props) => {
             backgroundColor: COLORS.white,
             height: 60,
             paddingBottom: 2,
-            paddingTop: 0.5,
+            paddingTop: 2,
           },
           labelStyle: {fontSize: SIZES.body4},
         }}>
@@ -64,11 +66,25 @@ const AppNavigator = (props) => {
           name="Home"
           component={Home}
           options={{
-            tabBarIcon: () => <Icon name="home" size={80} color="#bf1313" />,
+            tabBarIcon: () => <Icon name="home" size={30} />,
           }}
         />
-        <Tab.Screen name="Bookings" component={Bookings} />
-        <Tab.Screen name="Account" component={Account} />
+        <Tab.Screen
+          name="Bookings"
+          component={Bookings}
+          options={{
+            tabBarIcon: () => <BookingIcon name="list" size={30} />,
+          }}
+        />
+        <Tab.Screen
+          name="Account"
+          component={Account}
+          options={{
+            tabBarIcon: () => (
+              <AccountIcon name="account-cog-outline" size={30} />
+            ),
+          }}
+        />
       </Tab.Navigator>
     );
   }
@@ -115,7 +131,11 @@ const AppNavigator = (props) => {
               headerShown: getHeaderTitle(route) === 'Home' ? false : true,
             })}
           />
-          <Stack.Screen name="RoomBook" component={RoomBook} />
+          <Stack.Screen
+            name="RoomBook"
+            component={RoomBook}
+            options={{title: 'Book Room', headerTitleAlign: 'center'}}
+          />
         </Stack.Navigator>
       ) : (
         <AuthNavigator />
